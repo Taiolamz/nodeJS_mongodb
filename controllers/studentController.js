@@ -1,12 +1,11 @@
-const { Router, response } = require("express");
 const express = require("express");
 var router = express.Router();
 const mongoose = require("mongoose");
 const Student = mongoose.model("Student");
 
 router.get("/", (req, res) => {
-  res.render("/student/addOrEdit", {
-    title: "Insert Student",
+  res.render("student/addOrEdit", {
+    viewTitle: "Insert Student",
   });
 });
 
@@ -23,7 +22,7 @@ function insertRecord(req, res) {
   student.fullName = req.body.fullName;
   student.email = req.body.email;
   student.mobile = req.body.mobile;
-  student.city = req.body.city;
+  student.city = req.body.city; 
   student.save((err, doc) => {
     if (!err) {
       res.redirect("student/list");
@@ -35,7 +34,7 @@ function insertRecord(req, res) {
 
 function updateRecord(req, res) {
   Student.findOneAndUpdate(
-    { _id: req.body.id },
+    { _id: req.body._id },
     req.body,
     { new: true },
     (err, doc) => {
@@ -60,7 +59,7 @@ router.get("/list", (req, res) => {
   });
 });
 
-router.get(":/id", (req, res) => {
+router.get("/:id", (req, res) => {
   Student.findById(req.params.id, (err, doc) => {
     if (!err) {
       res.render("student/addOrEdit", {
@@ -72,8 +71,8 @@ router.get(":/id", (req, res) => {
   });
 });
 
-router.get("delete/id", (req, res) => {
-  Student.findByIdAndDelete((err, docs) => {
+router.get("delete/:id", (req, res) => {
+  Student.findByIdAndRemove(req.params.id, (err, docs) => {
     if (!err) {
       res.redirect("student/list");
     } else {
@@ -81,3 +80,5 @@ router.get("delete/id", (req, res) => {
     }
   });
 });
+
+module.exports = router
