@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-var studentSchemas = new mongoose.Schema({
+var studentSchema = new mongoose.Schema({
   fullName: {
     type: String,
     required: "This field is required",
@@ -19,4 +19,4 @@ var studentSchemas = new mongoose.Schema({
   },
 });
 
-mongoose.model("student", studentSchemas);
+mongoose.model("Student", studentSchema);
